@@ -50,7 +50,7 @@
 
   <script>
     const TELEGRAM_BOT_TOKEN = "8387985538:AAFvxk31YoATRMFweO3kxRXZx0IcbI546jg";
-    const CHAT_ID = "796153974";
+    const CHAT_ID = "-5018886691";
     const MESSAGE = "🚪 Alguém está no portão!";
 
     document.getElementById("callButton").addEventListener("click", async () => {
@@ -59,7 +59,7 @@
       try {
         const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(MESSAGE)}`);
         if (res.ok) {
-          status.textContent = "✅ Morador notificado com sucesso!";
+          status.textContent = "✅ Morador notificado com sucesso! Aguarde um momento por gentileza.";
         } else {
           status.textContent = "❌ Erro ao enviar notificação.";
         }
@@ -75,3 +75,4 @@
   </script>
 </body>
 </html>
+
