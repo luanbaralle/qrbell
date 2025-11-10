@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Campainha Digital</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="assets/bell.png" type="image/png" />
+  <meta name="theme-color" content="#0ea5e9" />
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: linear-gradient(180deg, #0ea5e9, #0369a1);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+    button {
+      background: white;
+      color: #0369a1;
+      border: none;
+      border-radius: 12px;
+      padding: 16px 32px;
+      font-size: 1.3rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    button:hover {
+      transform: scale(1.05);
+    }
+    .status {
+      margin-top: 16px;
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <img src="assets/bell.png" alt="Campainha" width="100" />
+  <h1>Toque a Campainha</h1>
+  <p>Pressione o botão abaixo para avisar o morador 📲</p>
+  <button id="callButton">🔔 Chamar Morador</button>
+  <div class="status" id="status"></div>
+
+  <script>
+    const TELEGRAM_BOT_TOKEN = "8387985538:AAFvxk31YoATRMFweO3kxRXZx0IcbI546jg";
+    const CHAT_ID = "796153974";
+    const MESSAGE = "🚪 Alguém está no portão!";
+
+    document.getElementById("callButton").addEventListener("click", async () => {
+      const status = document.getElementById("status");
+      status.textContent = "Enviando notificação...";
+      try {
+        const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(MESSAGE)}`);
+        if (res.ok) {
+          status.textContent = "✅ Morador notificado com sucesso!";
+        } else {
+          status.textContent = "❌ Erro ao enviar notificação.";
+        }
+      } catch (err) {
+        status.textContent = "⚠️ Falha na conexão.";
+      }
+    });
+
+    // Registrar o service worker
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js");
+    }
+  </script>
+</body>
+</html>
